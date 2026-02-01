@@ -1,15 +1,15 @@
 import java.util.Scanner;
 
 public class Bao {
+
+    public static final String HORIZONTAL_LINE = "____________________________________________________________";
+    public static final int MAX_NUM_OF_TASKS = 100;
+
     public static void main(String[] args) {
-        String HORIZONTAL_LINE = "____________________________________________________________";
-        Task[] tasks = new Task[100];
+        Task[] tasks = new Task[MAX_NUM_OF_TASKS];
         int taskCount = 0;
 
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("Hello! I'm Bao");
-        System.out.println("What can I do for you?");
-        System.out.println(HORIZONTAL_LINE);
+        showWelcomeMessage();
 
         Scanner in = new Scanner(System.in);
 
@@ -43,5 +43,16 @@ public class Bao {
             }
             System.out.println(HORIZONTAL_LINE);
         }
+    }
+
+    /**
+     * Shows the welcome message to the user.
+     * This will be in a well formatted way.
+     */
+    private static void showWelcomeMessage() {
+        System.out.println(HORIZONTAL_LINE);
+        System.out.println("Hello! I'm Bao");
+        System.out.println("What can I do for you?");
+        System.out.println(HORIZONTAL_LINE);
     }
 }
