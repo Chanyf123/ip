@@ -18,8 +18,7 @@ public class Bao {
             System.out.println(HORIZONTAL_LINE);
 
             if (userInput.equalsIgnoreCase("bye")) {
-                System.out.println("Bye. Hope to see you again soon!");
-                System.out.println(HORIZONTAL_LINE);
+                showExitMessage();
                 break;
             } else if (userInput.equalsIgnoreCase("list")) {
                 System.out.println(" Here are the tasks in your list:");
@@ -43,6 +42,15 @@ public class Bao {
             }
             System.out.println(HORIZONTAL_LINE);
         }
+    }
+
+    /**
+     * Shows the exit message to the user.
+     * This will be in a well formatted way.
+     */
+    private static void showExitMessage() {
+        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println(HORIZONTAL_LINE);
     }
 
     /**
