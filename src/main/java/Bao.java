@@ -21,10 +21,7 @@ public class Bao {
                 showExitMessage();
                 break;
             } else if (userInput.equalsIgnoreCase("list")) {
-                System.out.println(" Here are the tasks in your list:");
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.println(" " + (i + 1) + ". [" + tasks[i].getStatusIcon() + "] " + tasks[i].description);
-                }
+                showTaskList(taskCount, tasks);
             } else if (userInput.startsWith("mark ")) {
                 int index = Integer.parseInt(userInput.substring(5)) - 1;
                 tasks[index].markAsDone();
@@ -41,6 +38,17 @@ public class Bao {
                 System.out.println(" added: " + userInput);
             }
             System.out.println(HORIZONTAL_LINE);
+        }
+    }
+
+    /**
+     * Shows the task list to the user.
+     * This will be in a well formatted way.
+     */
+    private static void showTaskList(int taskCount, Task[] tasks) {
+        System.out.println(" Here are the tasks in your list:");
+        for (int i = 0; i < taskCount; i++) {
+            System.out.println(" " + (i + 1) + ". [" + tasks[i].getStatusIcon() + "] " + tasks[i].description);
         }
     }
 
