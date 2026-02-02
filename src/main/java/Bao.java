@@ -32,6 +32,26 @@ public class Bao {
                 tasks[index].markAsNotDone();
                 System.out.println(" OK, I've marked this task as not done yet:");
                 System.out.println(" [" + tasks[index].getStatusIcon() + "] " +  tasks[index].description);
+            } else if (userInput.startsWith("todo ")) {
+                tasks[taskCount] = new Todo(userInput.substring(5));
+                taskCount++;
+                System.out.println(" Got it. I've added this task:");
+                System.out.println(tasks[taskCount - 1].toString());
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+            } else if (userInput.startsWith("deadline ")) {
+                String[] parts = userInput.substring(9).split(" /by ");
+                tasks[taskCount] = new Deadline(parts[0], parts[1]);
+                taskCount++;
+                System.out.println(" Got it. I've added this task:");
+                System.out.println(tasks[taskCount - 1].toString());
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+            } else if (userInput.startsWith("event ")) {
+                String[] parts = userInput.substring(6).split(" /from | /to ");
+                tasks[taskCount] = new Event(parts[0], parts[1], parts[2]);
+                taskCount++;
+                System.out.println(" Got it. I've added this task:");
+                System.out.println(tasks[taskCount - 1].toString());
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
             } else {
                 tasks[taskCount] = new Task(userInput);
                 taskCount++;
@@ -48,7 +68,7 @@ public class Bao {
     private static void showTaskList(int taskCount, Task[] tasks) {
         System.out.println(" Here are the tasks in your list:");
         for (int i = 0; i < taskCount; i++) {
-            System.out.println(" " + (i + 1) + ". [" + tasks[i].getStatusIcon() + "] " + tasks[i].description);
+            System.out.println(" " + (i + 1) + ". " + tasks[i].toString());
         }
     }
 
