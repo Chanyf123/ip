@@ -1,3 +1,5 @@
+package bao;
+
 public class BaoException extends Exception {
     public static final String DESC_EMPTY = "The task description cannot be empty! Please add a task name.";
     public static final String OUT_OF_BOUNDS = "That task index is out of range.";
