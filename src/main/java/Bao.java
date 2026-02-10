@@ -4,7 +4,7 @@ public class Bao {
 
     public static final String HORIZONTAL_LINE = "____________________________________________________________";
     public static final int MAX_NUM_OF_TASKS = 100;
-    private static Task[] tasks = new Task[MAX_NUM_OF_TASKS];
+    private static final Task[] tasks = new Task[MAX_NUM_OF_TASKS];
     private static int taskCount = 0;
 
     public static void main(String[] args) {
@@ -75,11 +75,14 @@ public class Bao {
 
     private static void addDeadline(String input) throws BaoException {
         // Check if user input is missing "/by" or without any description
+        if (input.trim().length() <= 8) {
+            throw new BaoException(BaoException.DESC_EMPTY);
+        }
         if (!input.contains(" /by ")) {
             throw new BaoException(BaoException.MISSING_BY);
         }
-        String[] parts = input.substring(9).split(" /by ", 2);
-        if (parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+        String[] parts = input.substring(9).trim().split(" /by ", 2);
+        if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
             throw new BaoException(BaoException.DESC_EMPTY);
         }
 
@@ -144,12 +147,14 @@ public class Bao {
     }
 
     private static void showWelcomeMessage() {
-        String logo = "      (  (  (  \n" +
-                "       )  )  )\n" +
-                "      _________\n" +
-                "     /   \\|/   \\\n" +
-                "    |  o     o  |\n" +
-                "     \\____V____/";
+        String logo = """
+                      (  (  ( \s
+                       )  )  )
+                      _________
+                     /   \\|/   \\
+                    |  o     o  |
+                     \\____V____/\
+                """;
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Hello! I'm Bao");
         System.out.println(logo);
