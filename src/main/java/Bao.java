@@ -42,10 +42,17 @@ public class Bao {
                     addEvent(userInput);
                     break;
                 default:
-                    throw new BaoException("I'm sorry, but I don't know what '" + command + "' means. :(");
+                    throw new BaoException("I'm sorry, but I don't know what '" + command + "' means :(\n" +
+                            " Here is a quick guide on how to use Bao:\n" +
+                            "  - todo <task description>\n" +
+                            "  - deadline <task description> /by <date/time>\n" +
+                            "  - event <event description> /from <start> /to <end>\n" +
+                            "  - list : view all added tasks\n" +
+                            "  - mark/unmark <index> : change task status\n" +
+                            "  - bye : exit the program");
                 }
             } catch (BaoException e) {
-                System.out.println(" OOPS!!! " + e.getMessage());
+                System.out.println(e.getMessage());
             } catch (NumberFormatException e) {
                 System.out.println(" OOPS!!! " + BaoException.INVALID_NUM);
             } finally {
