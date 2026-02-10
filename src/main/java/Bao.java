@@ -144,8 +144,15 @@ public class Bao {
     }
 
     private static void showWelcomeMessage() {
+        String logo = "      (  (  (  \n" +
+                "       )  )  )\n" +
+                "      _________\n" +
+                "     /   \\|/   \\\n" +
+                "    |  o     o  |\n" +
+                "     \\____V____/";
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Hello! I'm Bao");
+        System.out.println(logo);
         System.out.println("What can I do for you?");
         System.out.println(HORIZONTAL_LINE);
     }
