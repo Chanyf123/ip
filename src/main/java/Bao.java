@@ -13,68 +13,100 @@ public class Bao {
 
         while (true) {
             String userInput = in.nextLine();
+            if (userInput.trim().isEmpty()) continue; // Skip empty inputs
             String command = userInput.split(" ")[0].toLowerCase(); //Splitting to get the command user input (e.g., "todo", "deadline") in lowercase
-            System.out.println(HORIZONTAL_LINE);
 
-            switch (command) {
-            case "bye":
-                showExitMessage();
-                return;
-            case "list":
-                showTaskList();
-                break;
-            case "mark":
-                handleMarkStatus(userInput, true);
-                break;
-            case "unmark":
-                handleMarkStatus(userInput, false);
-                break;
-            case "todo":
-                addToDo(userInput);
-                break;
-            case "deadline":
-                addDeadline(userInput);
-                break;
-            case "event":
-                addEvent(userInput);
-                break;
-            default:
-                addTask(userInput);
-                break;
+            try {
+                System.out.println(HORIZONTAL_LINE);
+
+                switch (command) {
+                case "bye":
+                    showExitMessage();
+                    return;
+                case "list":
+                    showTaskList();
+                    break;
+                case "mark":
+                    handleMarkStatus(userInput, true);
+                    break;
+                case "unmark":
+                    handleMarkStatus(userInput, false);
+                    break;
+                case "todo":
+                    addToDo(userInput);
+                    break;
+                case "deadline":
+                    addDeadline(userInput);
+                    break;
+                case "event":
+                    addEvent(userInput);
+                    break;
+                default:
+                    throw new BaoException("I'm sorry, but I don't know what '" + command + "' means. :(");
+                }
+            } catch (BaoException e) {
+                System.out.println(" OOPS!!! " + e.getMessage());
+            } catch (NumberFormatException e) {
+                System.out.println(" OOPS!!! " + BaoException.INVALID_NUM);
+            } finally {
+                System.out.println(HORIZONTAL_LINE);
             }
-            System.out.println(HORIZONTAL_LINE);
         }
     }
 
-    private static void addToDo(String input) {
-        tasks[taskCount] = new Todo(input.substring(5));
+    private static void addToDo(String input) throws BaoException {
+        // Check if user just typed "todo" without description
+        String description = input.length() > 4 ? input.substring(5).trim() : "";
+        if (description.isEmpty()) {
+            throw new BaoException(BaoException.DESC_EMPTY);
+        }
+
+        tasks[taskCount] = new Todo(description);
         taskCount++;
         showTaskAddedResponse();
     }
 
-    private static void addDeadline(String input) {
-        String[] parts = input.substring(9).split(" /by ");
-        tasks[taskCount] = new Deadline(parts[0], parts[1]);
+    private static void addDeadline(String input) throws BaoException {
+        // Check if user input is missing "/by" or without any description
+        if (!input.contains(" /by ")) {
+            throw new BaoException(BaoException.MISSING_BY);
+        }
+        String[] parts = input.substring(9).split(" /by ", 2);
+        if (parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+            throw new BaoException(BaoException.DESC_EMPTY);
+        }
+
+        tasks[taskCount] = new Deadline(parts[0].trim(), parts[1].trim());
         taskCount++;
         showTaskAddedResponse();
     }
 
-    private static void addEvent(String input) {
-        String[] parts = input.substring(6).split(" /from | /to ");
-        tasks[taskCount] = new Event(parts[0], parts[1], parts[2]);
+    private static void addEvent(String input) throws BaoException {
+        // Check if user did not include "/from" or "/to" or without any description
+        if (!input.contains(" /from ") || !input.contains(" /to ")) {
+            throw new BaoException(BaoException.MISSING_EVENT_INFO);
+        }
+        String[] parts = input.substring(6).split(" /from | /to ", 3);
+        if (parts.length < 3 || parts[0].trim().isEmpty()) {
+            throw new BaoException(BaoException.DESC_EMPTY);
+        }
+
+        tasks[taskCount] = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
         taskCount++;
         showTaskAddedResponse();
     }
 
-    private static void addTask(String input) {
-        tasks[taskCount] = new Task(input);
-        taskCount++;
-        System.out.println(" added: " + input);
-    }
-
-    private static void handleMarkStatus(String input, boolean isDone) {
+    private static void handleMarkStatus(String input, boolean isDone) throws BaoException {
+        // Check if user entered a valid task number or if number is out of range
         String[] parts = input.split(" ");
+        if (parts.length < 2) {
+            throw new BaoException(BaoException.INVALID_NUM);
+        }
+
         int index = Integer.parseInt(parts[1]) - 1;
+        if (index < 0 || index >= taskCount) {
+            throw new BaoException(BaoException.OUT_OF_BOUNDS);
+        }
 
         if (isDone) {
             tasks[index].markAsDone();
