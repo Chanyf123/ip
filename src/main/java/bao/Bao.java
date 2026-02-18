@@ -8,8 +8,27 @@ import java.util.Scanner;
 
 public class Bao {
 
+    //UI Strings
     public static final String HORIZONTAL_LINE = "____________________________________________________________";
-    public static final int MAX_NUM_OF_TASKS = 100;
+    public static final String USAGE_GUIDE = """
+             Here is a quick guide on how to use Bao:
+              - todo <task description>
+              - deadline <task description> /by <date/time>
+              - event <event description> /from <start> /to <end>
+              - list : view all added tasks
+              - mark/unmark <index> : change task status
+              - bye : exit the program\
+            """;
+    public static final String MSG_ADD_TASK = " Got it. I've added this task:";
+    public static final String MSG_TASK_COUNT_PRE = " Now you have ";
+    public static final String MSG_TASK_COUNT_POST = " tasks in the list.";
+    public static final String MSG_MARK_DONE = " Nice! I've marked this task as done:";
+    public static final String MSG_MARK_UNDONE = " OK, I've marked this task as not done yet:";
+    public static final String MSG_TASK_LIST = " Here are the tasks in your list:";
+    public static final String MSG_BYE = "Bye. Hope to see you again soon!";
+
+
+    private static final int MAX_NUM_OF_TASKS = 100;
     private static final Task[] tasks = new Task[MAX_NUM_OF_TASKS];
     private static int taskCount = 0;
 
@@ -48,14 +67,7 @@ public class Bao {
                     addEvent(userInput);
                     break;
                 default:
-                    throw new BaoException("I'm sorry, but I don't know what '" + command + "' means :(\n" +
-                            " Here is a quick guide on how to use Bao:\n" +
-                            "  - todo <task description>\n" +
-                            "  - deadline <task description> /by <date/time>\n" +
-                            "  - event <event description> /from <start> /to <end>\n" +
-                            "  - list : view all added tasks\n" +
-                            "  - mark/unmark <index> : change task status\n" +
-                            "  - bye : exit the program");
+                    throw new BaoException("I'm sorry, but I don't know what '" + command + "' means :(\n" + USAGE_GUIDE);
                 }
             } catch (BaoException e) {
                 System.out.println(e.getMessage());
@@ -126,29 +138,29 @@ public class Bao {
 
         if (isDone) {
             tasks[index].markAsDone();
-            System.out.println(" Nice! I've marked this task as done:");
+            System.out.println(MSG_MARK_DONE);
         } else {
             tasks[index].markAsNotDone();
-            System.out.println(" OK, I've marked this task as not done yet:");
+            System.out.println(MSG_MARK_UNDONE);
         }
         System.out.println("   " + tasks[index].toString());
     }
 
     private static void showTaskAddedResponse() {
-        System.out.println(" Got it. I've added this task:");
+        System.out.println(MSG_ADD_TASK);
         System.out.println("   " + tasks[taskCount - 1].toString());
-        System.out.println(" Now you have " + taskCount + " tasks in the list.");
+        System.out.println(MSG_TASK_COUNT_PRE + taskCount + MSG_TASK_COUNT_POST);
     }
 
     private static void showTaskList() {
-        System.out.println(" Here are the tasks in your list:");
+        System.out.println(MSG_TASK_LIST);
         for (int i = 0; i < taskCount; i++) {
             System.out.println(" " + (i + 1) + ". " + tasks[i].toString());
         }
     }
 
     private static void showExitMessage() {
-        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println(MSG_BYE);
         System.out.println(HORIZONTAL_LINE);
     }
 
