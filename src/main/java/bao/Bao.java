@@ -28,7 +28,7 @@ public class Bao {
                 switch (command) {
                 case "bye":
                     showExitMessage();
-                    return;
+                    return; // Terminate main method and exit the program
                 case "list":
                     showTaskList();
                     break;
