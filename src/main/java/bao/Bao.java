@@ -18,6 +18,7 @@ public class Bao {
               - event <event description> /from <start> /to <end>
               - list : view all added tasks
               - mark/unmark <index> : change task status
+              - delete <index> : remove a task from the list
               - bye : exit the program\
             """;
     public static final String MSG_ADD_TASK = " Got it. I've added this task:";
@@ -27,7 +28,7 @@ public class Bao {
     public static final String MSG_MARK_UNDONE = " OK, I've marked this task as not done yet:";
     public static final String MSG_TASK_LIST = " Here are the tasks in your list:";
     public static final String MSG_BYE = "Bye. Hope to see you again soon!";
-
+    public static final String MSG_TASK_REMOVE = " Noted. I've removed this task:";
 
     private static final ArrayList<Task> tasks = new ArrayList<>();
 
@@ -65,6 +66,9 @@ public class Bao {
                 case "event":
                     addEvent(userInput);
                     break;
+                case "delete":
+                    deleteTask(userInput);
+                    break;
                 default:
                     throw new BaoException("I'm sorry, but I don't know what '" + command + "' means :(\n" + USAGE_GUIDE);
                 }
@@ -85,8 +89,9 @@ public class Bao {
             throw new BaoException(BaoException.DESC_EMPTY);
         }
 
-        tasks.add(new Todo(description));
-        showTaskAddedResponse();
+        Task newTodo = new Todo(description);
+        tasks.add(newTodo);
+        showTaskAddedResponse(newTodo);
     }
 
     private static void addDeadline(String input) throws BaoException {
@@ -102,8 +107,9 @@ public class Bao {
             throw new BaoException(BaoException.DESC_EMPTY);
         }
 
-        tasks.add(new Deadline(parts[0].trim(), parts[1].trim()));
-        showTaskAddedResponse();
+        Task newDeadline = new Deadline(parts[0].trim(), parts[1].trim());
+        tasks.add(newDeadline);
+        showTaskAddedResponse(newDeadline);
     }
 
     private static void addEvent(String input) throws BaoException {
@@ -116,8 +122,28 @@ public class Bao {
             throw new BaoException(BaoException.DESC_EMPTY);
         }
 
-        tasks.add(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
-        showTaskAddedResponse();
+        Task newEvent = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
+        tasks.add(newEvent);
+        showTaskAddedResponse(newEvent);
+    }
+
+    private static void deleteTask(String input) throws BaoException{
+        // Check if user entered a valid task number or if number is out of range
+        String[] parts = input.split(" ");
+        if (parts.length < 2) {
+            throw new BaoException(BaoException.INVALID_NUM);
+        }
+
+        int index = Integer.parseInt(parts[1]) - 1;
+        if (index < 0 || index >= tasks.size()) {
+            throw new BaoException(BaoException.OUT_OF_BOUNDS);
+        }
+
+        Task removedTask = tasks.remove(index);
+
+        System.out.println(MSG_TASK_REMOVE);
+        System.out.println("   " + removedTask.toString());
+        System.out.println(MSG_TASK_COUNT_PRE + tasks.size() + MSG_TASK_COUNT_POST);
     }
 
     private static void handleMarkStatus(String input, boolean isDone) throws BaoException {
@@ -142,9 +168,9 @@ public class Bao {
         System.out.println("   " + tasks.get(index).toString());
     }
 
-    private static void showTaskAddedResponse() {
+    private static void showTaskAddedResponse(Task task) {
         System.out.println(MSG_ADD_TASK);
-        System.out.println("   " + tasks.get(tasks.size() - 1).toString());
+        System.out.println("   " + task.toString());
         System.out.println(MSG_TASK_COUNT_PRE + tasks.size() + MSG_TASK_COUNT_POST);
     }
 
