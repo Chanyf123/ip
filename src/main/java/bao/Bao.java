@@ -5,6 +5,7 @@ import bao.task.Event;
 import bao.task.Task;
 import bao.task.Todo;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Bao {
 
@@ -28,9 +29,7 @@ public class Bao {
     public static final String MSG_BYE = "Bye. Hope to see you again soon!";
 
 
-    private static final int MAX_NUM_OF_TASKS = 100;
-    private static final Task[] tasks = new Task[MAX_NUM_OF_TASKS];
-    private static int taskCount = 0;
+    private static final ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
         showWelcomeMessage();
@@ -86,8 +85,7 @@ public class Bao {
             throw new BaoException(BaoException.DESC_EMPTY);
         }
 
-        tasks[taskCount] = new Todo(description);
-        taskCount++;
+        tasks.add(new Todo(description));
         showTaskAddedResponse();
     }
 
@@ -104,8 +102,7 @@ public class Bao {
             throw new BaoException(BaoException.DESC_EMPTY);
         }
 
-        tasks[taskCount] = new Deadline(parts[0].trim(), parts[1].trim());
-        taskCount++;
+        tasks.add(new Deadline(parts[0].trim(), parts[1].trim()));
         showTaskAddedResponse();
     }
 
@@ -119,8 +116,7 @@ public class Bao {
             throw new BaoException(BaoException.DESC_EMPTY);
         }
 
-        tasks[taskCount] = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
-        taskCount++;
+        tasks.add(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
         showTaskAddedResponse();
     }
 
@@ -132,30 +128,30 @@ public class Bao {
         }
 
         int index = Integer.parseInt(parts[1]) - 1;
-        if (index < 0 || index >= taskCount) {
+        if (index < 0 || index >= tasks.size()) {
             throw new BaoException(BaoException.OUT_OF_BOUNDS);
         }
 
         if (isDone) {
-            tasks[index].markAsDone();
+            tasks.get(index).markAsDone();
             System.out.println(MSG_MARK_DONE);
         } else {
-            tasks[index].markAsNotDone();
+            tasks.get(index).markAsNotDone();
             System.out.println(MSG_MARK_UNDONE);
         }
-        System.out.println("   " + tasks[index].toString());
+        System.out.println("   " + tasks.get(index).toString());
     }
 
     private static void showTaskAddedResponse() {
         System.out.println(MSG_ADD_TASK);
-        System.out.println("   " + tasks[taskCount - 1].toString());
-        System.out.println(MSG_TASK_COUNT_PRE + taskCount + MSG_TASK_COUNT_POST);
+        System.out.println("   " + tasks.get(tasks.size() - 1).toString());
+        System.out.println(MSG_TASK_COUNT_PRE + tasks.size() + MSG_TASK_COUNT_POST);
     }
 
     private static void showTaskList() {
         System.out.println(MSG_TASK_LIST);
-        for (int i = 0; i < taskCount; i++) {
-            System.out.println(" " + (i + 1) + ". " + tasks[i].toString());
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(" " + (i + 1) + ". " + tasks.get(i).toString());
         }
     }
 
