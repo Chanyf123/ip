@@ -1,8 +1,10 @@
 package bao.task;
 
-public class Task {
+public abstract class Task {
     protected String description;
     protected boolean isDone;
+
+    public abstract String toFileFormat();
 
     public Task(String description) {
         this.description = description;
