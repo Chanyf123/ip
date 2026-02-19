@@ -4,7 +4,10 @@ import bao.task.Deadline;
 import bao.task.Event;
 import bao.task.Task;
 import bao.task.Todo;
+import bao.data.*;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.FileNotFoundException;
 
 public class Bao {
 
@@ -28,11 +31,17 @@ public class Bao {
     public static final String MSG_BYE = "Bye. Hope to see you again soon!";
 
 
-    private static final int MAX_NUM_OF_TASKS = 100;
-    private static final Task[] tasks = new Task[MAX_NUM_OF_TASKS];
-    private static int taskCount = 0;
+    private static Storage storage = new Storage("data/bao.txt");
+    private static ArrayList<Task> tasks;
 
     public static void main(String[] args) {
+
+        try {
+            tasks = storage.load();
+        } catch (FileNotFoundException e) {
+            tasks = new ArrayList<>();
+        }
+
         showWelcomeMessage();
         Scanner in = new Scanner(System.in);
 
