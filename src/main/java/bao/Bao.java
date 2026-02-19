@@ -4,10 +4,10 @@ import bao.task.Deadline;
 import bao.task.Event;
 import bao.task.Task;
 import bao.task.Todo;
-import bao.data.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Bao {
 
@@ -40,6 +40,7 @@ public class Bao {
 
         try {
             tasks = storage.load();
+            System.out.println("file loaded");
         } catch (FileNotFoundException e) {
             tasks = new ArrayList<>();
         }
@@ -93,6 +94,14 @@ public class Bao {
         }
     }
 
+    private static void updateStorage() {
+        try {
+            storage.save(tasks);
+        } catch (IOException e) {
+            System.out.println(" OOPS!!! Something went wrong while saving: " + e.getMessage());
+        }
+    }
+
     private static void addToDo(String input) throws BaoException {
         // Check if user just typed "todo" without description
         String description = input.length() > 4 ? input.substring(5).trim() : "";
@@ -102,6 +111,7 @@ public class Bao {
 
         Task newTodo = new Todo(description);
         tasks.add(newTodo);
+        updateStorage();
         showTaskAddedResponse(newTodo);
     }
 
@@ -120,6 +130,7 @@ public class Bao {
 
         Task newDeadline = new Deadline(parts[0].trim(), parts[1].trim());
         tasks.add(newDeadline);
+        updateStorage();
         showTaskAddedResponse(newDeadline);
     }
 
@@ -135,6 +146,7 @@ public class Bao {
 
         Task newEvent = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
         tasks.add(newEvent);
+        updateStorage();
         showTaskAddedResponse(newEvent);
     }
 
@@ -151,10 +163,8 @@ public class Bao {
         }
 
         Task removedTask = tasks.remove(index);
-
-        System.out.println(MSG_TASK_REMOVE);
-        System.out.println("   " + removedTask.toString());
-        System.out.println(MSG_TASK_COUNT_PRE + tasks.size() + MSG_TASK_COUNT_POST);
+        updateStorage();
+        showTaskDeleteMessage(removedTask);
     }
 
     private static void handleMarkStatus(String input, boolean isDone) throws BaoException {
@@ -182,6 +192,12 @@ public class Bao {
     private static void showTaskAddedResponse(Task task) {
         System.out.println(MSG_ADD_TASK);
         System.out.println("   " + task.toString());
+        System.out.println(MSG_TASK_COUNT_PRE + tasks.size() + MSG_TASK_COUNT_POST);
+    }
+
+    private static void showTaskDeleteMessage(Task removedTask) {
+        System.out.println(MSG_TASK_REMOVE);
+        System.out.println("   " + removedTask.toString());
         System.out.println(MSG_TASK_COUNT_PRE + tasks.size() + MSG_TASK_COUNT_POST);
     }
 
