@@ -186,6 +186,7 @@ public class Bao {
             tasks.get(index).markAsNotDone();
             System.out.println(MSG_MARK_UNDONE);
         }
+        updateStorage();
         System.out.println("   " + tasks.get(index).toString());
     }
 
