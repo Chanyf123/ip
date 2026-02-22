@@ -1,6 +1,10 @@
 package bao;
 
-import bao.task.*;
+import bao.task.Task;
+import bao.task.Todo;
+import bao.task.Deadline;
+import bao.task.Event;
+
 import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
