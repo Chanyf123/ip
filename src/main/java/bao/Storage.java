@@ -10,6 +10,9 @@ import java.io.FileWriter;
 
 public class Storage {
     public static final String MSG_CORRUPTED_LINE = " Skipping corrupted line: ";
+    public static final String TODO = "T";
+    public static final String DEADLINE = "D";
+    public static final String EVENT = "E";
 
     private String filePath;
 
@@ -58,20 +61,21 @@ public class Storage {
         String[] parts = line.split(" \\| ");
         String type = parts[0];     // "T", "D", or "E"
         boolean isDone = parts[1].equals("1"); // "1" means done status
-        Task task;
+        Task task = null;
 
         switch (type) {
-        case "T":
+        case TODO:
             task = new Todo(parts[2]); // Desc
             break;
-        case "D":
+        case DEADLINE:
             task = new Deadline(parts[2], parts[3]); // Desc, By
             break;
-        case "E":
+        case EVENT:
             task = new Event(parts[2], parts[3], parts[4]); // Desc, From, To
             break;
         default:
-            return null;
+            System.out.println(MSG_CORRUPTED_LINE + line);
+            break;
         }
 
         if (isDone) task.markAsDone();
