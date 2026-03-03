@@ -87,12 +87,12 @@ public class Ui {
         System.out.println(MSG_TASK_COUNT_PRE + currentListSize + MSG_TASK_COUNT_POST);
     }
 
-    public void showTaskMarkDoneMessage(Task removedTask) {
-        System.out.println(MSG_MARK_DONE);
+    public void showTaskMarkDoneMessage(Task task) {
+        System.out.println(MSG_MARK_DONE +  task.toString());
     }
 
-    public void showTaskMarkUndoneMessage(Task removedTask) {
-        System.out.println(MSG_MARK_UNDONE);
+    public void showTaskMarkUndoneMessage(Task task) {
+        System.out.println(MSG_MARK_UNDONE +  task.toString());
     }
 
     public void showFileLoadedMessage(String filePath) {
