@@ -7,6 +7,7 @@ import bao.command.ExitCommand;
 import bao.command.ListCommand;
 import bao.command.MarkCommand;
 import bao.command.UnmarkCommand;
+import bao.command.FindCommand;
 import bao.task.Todo;
 import bao.task.Deadline;
 import bao.task.Event;
@@ -38,6 +39,8 @@ public class Parser {
             return new UnmarkCommand(parseTaskID(taskName));
         case "delete":
             return new DeleteCommand(parseTaskID(taskName));
+        case "find":
+            return handleFind(taskName);
         case "bye":
             return new ExitCommand();
         default:
@@ -83,5 +86,12 @@ public class Parser {
             throw new BaoException(BaoException.DESC_EMPTY);
         }
         return new AddCommand(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
+    }
+
+    private static Command handleFind(String taskName) throws BaoException {
+        if (taskName.isEmpty()) {
+            throw new BaoException(BaoException.DESC_EMPTY);
+        }
+        return new FindCommand(taskName);
     }
 }
