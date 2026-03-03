@@ -96,11 +96,11 @@ public class Ui {
     }
 
     public void showFileLoadedMessage(String filePath) {
-        System.out.println("file with path: " + filePath + "loaded successfully :)");
+        System.out.println("file with path: " + filePath + " loaded successfully :)");
     }
 
     public void showFileLoadingError(String filePath) {
-        System.out.println("file with path: " + filePath + "loaded unsuccessfully :(");
+        System.out.println("file with path: " + filePath + " loaded unsuccessfully :(");
     }
 
 }
