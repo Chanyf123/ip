@@ -3,3 +3,4 @@ E | 0 | project meeting | Aug 6th 2pm | 4pm
 T | 0 | run
 E | 1 | write essay | Sep 1st 9pm | 12am
 T | 0 | jump
+T | 1 | cook soup
