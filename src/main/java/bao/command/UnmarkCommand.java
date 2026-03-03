@@ -1,5 +1,9 @@
-package bao;
+package bao.command;
 
+import bao.BaoException;
+import bao.Storage;
+import bao.TaskList;
+import bao.Ui;
 import bao.task.Task;
 
 import java.io.IOException;

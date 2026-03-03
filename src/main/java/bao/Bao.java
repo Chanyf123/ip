@@ -1,5 +1,7 @@
 package bao;
 
+import bao.command.Command;
+
 import java.io.FileNotFoundException;
 
 public class Bao {

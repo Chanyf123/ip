@@ -1,4 +1,8 @@
-package bao;
+package bao.command;
+
+import bao.Storage;
+import bao.TaskList;
+import bao.Ui;
 
 public class ListCommand extends Command {
     @Override
