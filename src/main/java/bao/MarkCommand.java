@@ -4,7 +4,7 @@ import bao.task.Task;
 
 import java.io.IOException;
 
-public abstract class MarkCommand extends Command {
+public class MarkCommand extends Command {
     private final int taskId;
 
     public MarkCommand(int taskId) {

@@ -4,7 +4,7 @@ import bao.task.Task;
 
 import java.io.IOException;
 
-public abstract class UnmarkCommand extends Command {
+public class UnmarkCommand extends Command {
     private final int taskId;
 
     public UnmarkCommand(int taskId) {

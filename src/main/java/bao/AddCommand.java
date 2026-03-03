@@ -4,7 +4,7 @@ import bao.task.Task;
 
 import java.io.IOException;
 
-public abstract class AddCommand extends Command {
+public class AddCommand extends Command {
     private final Task taskToAdd;
 
     public AddCommand(Task taskToAdd) {

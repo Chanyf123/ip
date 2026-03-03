@@ -4,7 +4,7 @@ import bao.task.Task;
 
 import java.io.IOException;
 
-public abstract class DeleteCommand extends Command {
+public class DeleteCommand extends Command {
     private final int taskId;
 
     public DeleteCommand(int taskId) {
