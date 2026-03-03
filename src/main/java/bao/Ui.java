@@ -23,8 +23,8 @@ public class Ui {
     public static final String MSG_ADD_TASK = " Got it. I've added this task:";
     public static final String MSG_TASK_COUNT_PRE = " Now you have ";
     public static final String MSG_TASK_COUNT_POST = " tasks in the list.";
-    public static final String MSG_MARK_DONE = " Nice! I've marked this task as done:";
-    public static final String MSG_MARK_UNDONE = " OK, I've marked this task as not done yet:";
+    public static final String MSG_MARK_DONE = " Nice! I've marked this task as done: ";
+    public static final String MSG_MARK_UNDONE = " OK, I've marked this task as not done yet: ";
     public static final String MSG_TASK_LIST = " Here are the tasks in your list:";
     public static final String MSG_BYE = "Bye. Hope to see you again soon!";
     public static final String MSG_TASK_REMOVE = " Noted. I've removed this task:";
