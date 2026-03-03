@@ -13,7 +13,7 @@ public class DeleteCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws BaoException {
-        Task removedTask = tasks.deleteTask(taskId);
+        Task removedtask = tasks.deleteTask(taskId);
 
         try {
             storage.save(tasks.getList());
@@ -21,6 +21,6 @@ public class DeleteCommand extends Command {
             System.out.println(" OOPS!!! Something went wrong while saving: " + e.getMessage());
         }
 
-        ui.showTaskDeleteMessage(removedTask, tasks.getSize());
+        ui.showTaskDeleteMessage(removedtask, tasks.getSize());
     }
 }
