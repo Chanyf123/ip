@@ -4,6 +4,7 @@ import bao.task.Deadline;
 import bao.task.Event;
 import bao.task.Task;
 import bao.task.Todo;
+import bao.Ui;
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -12,39 +13,26 @@ import java.io.IOException;
 
 public class Bao {
 
-    //UI Strings
-    public static final String HORIZONTAL_LINE = "____________________________________________________________";
-    public static final String USAGE_GUIDE = """
-             Here is a quick guide on how to use Bao:
-              - todo <task description>
-              - deadline <task description> /by <date/time>
-              - event <event description> /from <start> /to <end>
-              - list : view all added tasks
-              - mark/unmark <index> : change task status
-              - delete <index> : remove a task from the list
-              - bye : exit the program\
-            """;
-    public static final String MSG_ADD_TASK = " Got it. I've added this task:";
-    public static final String MSG_TASK_COUNT_PRE = " Now you have ";
-    public static final String MSG_TASK_COUNT_POST = " tasks in the list.";
-    public static final String MSG_MARK_DONE = " Nice! I've marked this task as done:";
-    public static final String MSG_MARK_UNDONE = " OK, I've marked this task as not done yet:";
-    public static final String MSG_TASK_LIST = " Here are the tasks in your list:";
-    public static final String MSG_BYE = "Bye. Hope to see you again soon!";
-    public static final String MSG_TASK_REMOVE = " Noted. I've removed this task:";
+    //private Storage storage = new Storage("data/bao.txt");
+    private Storage storage;
+    private ArrayList<Task> tasks;
+    private Ui ui;
 
-
-    private static Storage storage = new Storage("data/bao.txt");
-    private static ArrayList<Task> tasks;
-
-    public static void main(String[] args) {
+    public Bao(String filePath) {
+        Ui ui = new Ui();
+        storage = new Storage(filePath);
 
         try {
             tasks = storage.load();
-            System.out.println("file loaded");
+            ui.showFileLoadedMessage(filePath);
         } catch (FileNotFoundException e) {
             tasks = new ArrayList<>();
+            ui.showFileLoadingError(filePath);
         }
+    }
+
+    public static void main(String[] args) {
+
 
         showWelcomeMessage();
         Scanner in = new Scanner(System.in);
@@ -191,43 +179,4 @@ public class Bao {
         System.out.println("   " + tasks.get(index).toString());
     }
 
-    private static void showTaskAddedResponse(Task task) {
-        System.out.println(MSG_ADD_TASK);
-        System.out.println("   " + task.toString());
-        System.out.println(MSG_TASK_COUNT_PRE + tasks.size() + MSG_TASK_COUNT_POST);
-    }
-
-    private static void showTaskDeleteMessage(Task removedTask) {
-        System.out.println(MSG_TASK_REMOVE);
-        System.out.println("   " + removedTask.toString());
-        System.out.println(MSG_TASK_COUNT_PRE + tasks.size() + MSG_TASK_COUNT_POST);
-    }
-
-    private static void showTaskList() {
-        System.out.println(MSG_TASK_LIST);
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println(" " + (i + 1) + ". " + tasks.get(i).toString());
-        }
-    }
-
-    private static void showExitMessage() {
-        System.out.println(MSG_BYE);
-        System.out.println(HORIZONTAL_LINE);
-    }
-
-    private static void showWelcomeMessage() {
-        String logo = """
-                      (  (  ( \s
-                       )  )  )
-                      _________
-                     /   \\|/   \\
-                    |  o     o  |
-                     \\____V____/\
-                """;
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("Hello! I'm Bao");
-        System.out.println(logo);
-        System.out.println("What can I do for you?");
-        System.out.println(HORIZONTAL_LINE);
-    }
 }
