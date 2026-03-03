@@ -103,4 +103,8 @@ public class Ui {
         System.out.println("file with path: " + filePath + " loaded unsuccessfully :(");
     }
 
+    public void showError(String errorMessage) {
+        System.out.println(errorMessage);
+    }
+
 }
