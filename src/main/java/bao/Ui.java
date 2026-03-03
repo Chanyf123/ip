@@ -38,6 +38,8 @@ public class Ui {
                 |  o     o  |
                  \\____V____/\
             """;
+    public static final String MSG_NO_MATCHING_TASKS = "No matching tasks found. Did you really add that task @o@";
+    public static final String MSG_MATCHING_TASKS_FOUND = "Hopefully I have found what you are looking for:";
 
 
     private Scanner in;
@@ -105,6 +107,18 @@ public class Ui {
 
     public void showError(String errorMessage) {
         System.out.println(errorMessage);
+    }
+
+    public void showMatchingTasks(ArrayList<Task> results) {
+        if (results.isEmpty()) {
+            System.out.println(MSG_NO_MATCHING_TASKS);
+        }
+        else {
+            System.out.println(MSG_MATCHING_TASKS_FOUND);
+            for (int i = 0; i < results.size(); i++) {
+                System.out.println(" " + (i + 1) + ". " + results.get(i).toString());
+            }
+        }
     }
 
 }
