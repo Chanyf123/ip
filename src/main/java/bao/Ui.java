@@ -50,7 +50,7 @@ public class Ui {
         return in.nextLine();
     }
 
-    public void printHorizontalLine() {
+    public void showHorizontalLine() {
         System.out.println(HORIZONTAL_LINE);
     }
 
