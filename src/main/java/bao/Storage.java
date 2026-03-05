@@ -12,11 +12,17 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 
+/**
+ * Handles the loading and saving of task data to a local data text file.
+ * This class ensures that tasks is saved and stored across different
+ * sessions of the application.
+ */
 public class Storage {
     public static final String MSG_CORRUPTED_LINE = " Skipping corrupted line: ";
     public static final String TODO = "T";
     public static final String DEADLINE = "D";
     public static final String EVENT = "E";
+    public static final String DONE_STATUS = "1";
 
     private String filePath;
 
@@ -24,6 +30,13 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    /**
+     * Saves the current list of tasks to the local disk.
+     * If the directory or file does not exist, they will be created.
+     *
+     * @param tasks The {@link ArrayList} of {@link Task} objects to be saved.
+     * @throws IOException If an error occurs while writing to the file.
+     */
     public void save(ArrayList<Task> tasks) throws IOException {
         File file = new File(filePath);
 
@@ -41,6 +54,13 @@ public class Storage {
         fw.close();
     }
 
+    /**
+     * Loads the tasks from the hard disk and returns them as an {@link ArrayList}.
+     * If the file does not exist, an empty list is returned.
+     *
+     * @return An ArrayList containing the loaded tasks.
+     * @throws FileNotFoundException If the file cannot be accessed.
+     */
     public ArrayList<Task> load() throws FileNotFoundException {
         File f = new File(filePath);
         ArrayList<Task> loadedTasks = new ArrayList<>();
@@ -61,10 +81,16 @@ public class Storage {
         return loadedTasks;
     }
 
+    /**
+     * Interprets a single line from the data file and converts it into a Task object.
+     *
+     * @param line A pipe-separated string from the storage file.
+     * @return The corresponding {@link Task}, or <code>null</code> if the type is unknown.
+     */
     private Task parseTaskLine(String line) {
         String[] parts = line.split(" \\| ");
         String type = parts[0];     // "T", "D", or "E"
-        boolean isDone = parts[1].equals("1"); // "1" means done status
+        boolean isDone = parts[1].equals(DONE_STATUS);
         Task task = null;
 
         switch (type) {
@@ -82,7 +108,9 @@ public class Storage {
             break;
         }
 
-        if (isDone) task.markAsDone();
+        if (isDone && task != null) {
+            task.markAsDone();
+        }
         return task;
     }
 }

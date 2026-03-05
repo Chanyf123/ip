@@ -3,6 +3,10 @@ package bao;
 import bao.task.Task;
 import java.util.ArrayList;
 
+/**
+ * Provides methods to for operations (e.g. add, delete, and get tasks) handling
+ * an <code>ArrayList</code> of <code>Task</code> objects.
+ */
 public class TaskList {
     private final ArrayList<Task> tasks;
 
@@ -22,15 +26,21 @@ public class TaskList {
         this.tasks.add(taskToAdd);
     }
 
-    public Task deleteTask(int taskId){
+    public Task deleteTask(int taskId) throws BaoException {
+        if (taskId < 0 || taskId >= tasks.size()) {
+            throw new BaoException(BaoException.OUT_OF_BOUNDS);
+        }
         return this.tasks.remove(taskId);
     }
 
-    public Task getTask(int taskId){
+    public Task getTask(int taskId) throws BaoException {
+        if (taskId < 0 || taskId >= tasks.size()) {
+            throw new BaoException(BaoException.OUT_OF_BOUNDS);
+        }
         return this.tasks.get(taskId);
     }
 
-    public int getSize(){
+    public int getSize() {
         return this.tasks.size();
     }
 }
