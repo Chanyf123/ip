@@ -5,7 +5,11 @@ import bao.task.Task;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * Handles all user interface interactions for the Bao application.
+ * This class is responsible for displaying messages,
+ * errors, and task information to the console.
+ */
 public class Ui {
 
     //UI Strings
@@ -44,17 +48,29 @@ public class Ui {
 
     private Scanner in;
 
+    /**
+     * Initialises a new Ui instance with a <code>Scanner</code> for reading system input.
+     */
     public Ui(){
         this.in = new Scanner(System.in);
     }
 
+    /**
+     * Reads the next line of input from the user.
+     *
+     * @return The raw string entered by the user.
+     */
     public String readUserInput(){
         return in.nextLine();
     }
 
+    /**
+     * Displays a horizontal divider line to the console.
+     */
     public void showHorizontalLine() {
         System.out.println(HORIZONTAL_LINE);
     }
+
 
     public void showWelcomeMessage() {
         System.out.println(HORIZONTAL_LINE);
@@ -70,6 +86,11 @@ public class Ui {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    /**
+     * Displays the full list of tasks to the user.
+     *
+     * @param tasks The {@link ArrayList} of tasks to be printed.
+     */
     public void showTaskList(ArrayList<Task> tasks) {
         System.out.println(MSG_TASK_LIST);
         for (int i = 0; i < tasks.size(); i++) {
@@ -77,12 +98,24 @@ public class Ui {
         }
     }
 
-    public void showTaskAddedResponse(Task addedtask, int currentListSize) {
+    /**
+     * Confirms to the user that a task has been successfully added.
+     *
+     * @param addedTask The task that was just created.
+     * @param currentListSize The total number of tasks after the addition.
+     */
+    public void showTaskAddedResponse(Task addedTask, int currentListSize) {
         System.out.println(MSG_ADD_TASK);
-        System.out.println("   " + addedtask.toString());
+        System.out.println("   " + addedTask.toString());
         System.out.println(MSG_TASK_COUNT_PRE + currentListSize + MSG_TASK_COUNT_POST);
     }
 
+    /**
+     * Confirms to the user that a task has been successfully removed.
+     *
+     * @param removedTask The task that was just deleted.
+     * @param currentListSize The total number of tasks remaining.
+     */
     public void showTaskDeleteMessage(Task removedTask, int currentListSize) {
         System.out.println(MSG_TASK_REMOVE);
         System.out.println("   " + removedTask.toString());
@@ -109,6 +142,12 @@ public class Ui {
         System.out.println(errorMessage);
     }
 
+    /**
+     * Displays a list of tasks that match the search keyword.
+     * If no tasks are found, a "no match" message is shown.
+     *
+     * @param results The list of tasks containing the keyword.
+     */
     public void showMatchingTasks(ArrayList<Task> results) {
         if (results.isEmpty()) {
             System.out.println(MSG_NO_MATCHING_TASKS);
