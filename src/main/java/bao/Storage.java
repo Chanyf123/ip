@@ -24,7 +24,7 @@ public class Storage {
     public static final String EVENT = "E";
     public static final String DONE_STATUS = "1";
 
-    private String filePath;
+    private final String filePath;
 
     public Storage(String filePath){
         this.filePath = filePath;

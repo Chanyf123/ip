@@ -22,6 +22,7 @@ public class Ui {
               - list : view all added tasks
               - mark/unmark <index> : change task status
               - delete <index> : remove a task from the list
+              - find <keyword> : finds a task with the given keyword from the list
               - bye : exit the program\
             """;
     public static final String MSG_ADD_TASK = " Got it. I've added this task:";
